@@ -21,30 +21,15 @@ package jiconfont.iconcode.crawler;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public enum IconFont {
+public class GoogleMaterialDesignIconsCrawler implements Crawler {
 
-    GOOGLE_MATERIAL_DESIGN_ICONS("https://raw.github.com/google/material-design-icons/master/iconfont/codepoints", "G_", GoogleMaterialDesignIconsCrawler.class),
-    FONT_AWESOME("https://raw.github.com/FortAwesome/Font-Awesome/master/src/icons.yml", "FA_", FontAwesomeCrawler.class);
+    @Override
+    public void process(String line, IconCodeCrawler iconCodeCrawler) {
+        line = line.toUpperCase();
+        String split[] = line.split(" ");
 
-    IconFont(String url, String prefix, Class<? extends Crawler> crawlerClass) {
-        this.url = url;
-        this.prefix = prefix;
-        this.crawlerClass = crawlerClass;
-    }
-
-    private String url;
-    private String prefix;
-    private Class<? extends Crawler> crawlerClass;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public Crawler buildCrawler() throws IllegalAccessException, InstantiationException {
-        return crawlerClass.newInstance();
+        String name = split[0];
+        String unicode = split[1];
+        iconCodeCrawler.registerIcon(name, unicode);
     }
 }
