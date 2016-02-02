@@ -23,6 +23,8 @@ package jiconfont.iconcode.crawler;
  */
 public enum IconFont {
 
+    ENTYPO("https://raw.github.com/danielbruce/entypo/master/font/entypo.css", "E_", EntypoCrawler.class),
+    ELUSIVE("https://raw.github.com/reduxframework/elusive-iconfont/master/less/variables.less", "E_", ElusiveCrawler.class),
     MFG_LABS("https://raw.github.com/MfgLabs/mfglabs-iconset/master/css/mfglabs_iconset.css", "M_", MFGLabsCrawler.class),
     OPEN_ICONIC("https://raw.github.com/somerandomdude/Iconic/master/font/Iconic%20Fill/iconic_fill.css.scss", "I_", OpenIconicCrawler.class),
     GOOGLE_MATERIAL_DESIGN_ICONS("https://raw.github.com/google/material-design-icons/master/iconfont/codepoints", "G_", GoogleMaterialDesignIconsCrawler.class),

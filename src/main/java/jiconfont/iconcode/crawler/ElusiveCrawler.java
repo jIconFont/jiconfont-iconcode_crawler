@@ -21,18 +21,20 @@ package jiconfont.iconcode.crawler;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class RunCrawler {
+public class ElusiveCrawler implements Crawler {
 
-    public static void main(String args[]) {
-        try {
-            // IconCodeCrawler.execute(IconFont.FONT_AWESOME);
-            // IconCodeCrawler.execute(IconFont.GOOGLE_MATERIAL_DESIGN_ICONS);
-            // IconCodeCrawler.execute(IconFont.OPEN_ICONIC);
-            // IconCodeCrawler.execute(IconFont.MFG_LABS);
-            //IconCodeCrawler.execute(IconFont.ELUSIVE);
-            IconCodeCrawler.execute(IconFont.ENTYPO);
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Override
+    public void process(String line, IconCodeCrawler iconCodeCrawler) {
+        if (line.contains("@el-var-")) {
+            line = line.trim();
+            line = line.replaceAll("@el-var-", "");
+            line = line.replaceAll(" \"\\\\", "");
+            line = line.replaceAll("\";", "");
+
+            String split[] = line.toUpperCase().split(":");
+            String name = split[0].replaceAll("-", "_");
+            String unicode = split[1];
+            iconCodeCrawler.registerIcon(name, unicode);
         }
     }
 }
