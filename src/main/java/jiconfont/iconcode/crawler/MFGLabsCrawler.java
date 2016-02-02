@@ -21,32 +21,18 @@ package jiconfont.iconcode.crawler;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public enum IconFont {
+public class MFGLabsCrawler implements Crawler {
 
-    MFG_LABS("https://raw.github.com/MfgLabs/mfglabs-iconset/master/css/mfglabs_iconset.css", "M_", MFGLabsCrawler.class),
-    OPEN_ICONIC("https://raw.github.com/somerandomdude/Iconic/master/font/Iconic%20Fill/iconic_fill.css.scss", "I_", OpenIconicCrawler.class),
-    GOOGLE_MATERIAL_DESIGN_ICONS("https://raw.github.com/google/material-design-icons/master/iconfont/codepoints", "G_", GoogleMaterialDesignIconsCrawler.class),
-    FONT_AWESOME("https://raw.github.com/FortAwesome/Font-Awesome/master/src/icons.yml", "FA_", FontAwesomeCrawler.class);
-
-    IconFont(String url, String prefix, Class<? extends Crawler> crawlerClass) {
-        this.url = url;
-        this.prefix = prefix;
-        this.crawlerClass = crawlerClass;
-    }
-
-    private String url;
-    private String prefix;
-    private Class<? extends Crawler> crawlerClass;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public Crawler buildCrawler() throws IllegalAccessException, InstantiationException {
-        return crawlerClass.newInstance();
+    @Override
+    public void process(String line, IconCodeCrawler iconCodeCrawler) {
+        if (line.contains("icon") && line.contains("before")
+                && line.contains("content")) {
+            line = line.replaceAll(".icon-", "").toUpperCase();
+            String name = line.substring(0, line.indexOf(":"));
+            String unicode =
+                    line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""))
+                            .replace("\\", "");
+            iconCodeCrawler.registerIcon(name, unicode);
+        }
     }
 }

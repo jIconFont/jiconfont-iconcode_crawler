@@ -26,7 +26,9 @@ public class RunCrawler {
     public static void main(String args[]) {
         try {
             // IconCodeCrawler.execute(IconFont.FONT_AWESOME);
-            IconCodeCrawler.execute(IconFont.GOOGLE_MATERIAL_DESIGN_ICONS);
+            // IconCodeCrawler.execute(IconFont.GOOGLE_MATERIAL_DESIGN_ICONS);
+            // IconCodeCrawler.execute(IconFont.OPEN_ICONIC);
+            IconCodeCrawler.execute(IconFont.MFG_LABS);
         } catch (Exception e) {
             e.printStackTrace();
         }
