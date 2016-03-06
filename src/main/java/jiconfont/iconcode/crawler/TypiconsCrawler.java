@@ -21,19 +21,32 @@ package jiconfont.iconcode.crawler;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class RunCrawler {
+public class TypiconsCrawler implements Crawler {
 
-    public static void main(String args[]) {
-        try {
-            // IconCodeCrawler.execute(IconFont.FONT_AWESOME);
-            // IconCodeCrawler.execute(IconFont.GOOGLE_MATERIAL_DESIGN_ICONS);
-            // IconCodeCrawler.execute(IconFont.OPEN_ICONIC);
-            // IconCodeCrawler.execute(IconFont.MFG_LABS);
-            //IconCodeCrawler.execute(IconFont.ELUSIVE);
-            // IconCodeCrawler.execute(IconFont.ENTYPO);
-            IconCodeCrawler.execute(IconFont.TYPICONS);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private String name;
+
+    private boolean found;
+
+    @Override
+    public void process(String line, IconCodeCrawler iconCodeCrawler) {
+        if (line.contains("  -")) {
+            found = true;
+        }
+        if (found && line.contains("css:")) {
+            name = line.replace("css:", "");
+            name = name.trim();
+            name = name.replace("-", "_");
+            name = name.toUpperCase();
+        }
+        if (found && line.contains("code:")) {
+            String unicode = line.replace("code:", "");
+            unicode = unicode.replace("'0x", "");
+            unicode = unicode.replace("'", "");
+            unicode = unicode.trim();
+            unicode = unicode.toUpperCase();
+            iconCodeCrawler.registerIcon(name, unicode);
+            name = null;
+            found = false;
         }
     }
 }
